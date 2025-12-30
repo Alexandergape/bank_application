@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDto> getAll() {
         // Get all accounts
-        return accountRepository.findAll().stream().map(AccountMapper::toDto).collect(Collectors.toList());
+        return accountRepository.findAllByIsActiveTrue().stream().map(AccountMapper::toDto).collect(Collectors.toList());
     }
 
     private Account getAccountById(Long id) {

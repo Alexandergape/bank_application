@@ -83,9 +83,6 @@ public class ClientController {
 	@PatchMapping("{id}")
 	public ResponseEntity<ClientDto> partialUpdate(@PathVariable Long id,
 			@RequestBody PartialClientDto partialClientDto) {
-		// api/accounts/{id}
-		// Partial update accounts
-		// return ResponseEntity.ok(clientService.partialUpdate(id, partialClientDto));
 		var res = clientService.partialUpdate(id, partialClientDto);
 		if (res != null)
 			return ResponseEntity.ok(res);
@@ -95,9 +92,6 @@ public class ClientController {
 
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		// api/clients/{id}
-		// Delete client
-		// return null;
 		clientService.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}

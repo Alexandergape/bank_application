@@ -97,10 +97,15 @@ public class TransactionServiceImpl implements TransactionService {
 
         var res = new ArrayList<BankStatementDto>();
 
+        var accountIdsSet = transactions.stream().map(Transaction::getAccountId).collect(Collectors.toSet());
+        // var accounts = accountRepository.findAllById(accountIdsSet).stream().collect(Collectors.toMap(Account::getId, a->a));
+
+
         for (Transaction t : transactions) {
             // search the account
             Account account = accountRepository.findById(t.getAccountId())
                     .orElseThrow(() -> new NotFoundException("Transaction", t.getAccountId()));
+            // var account = accounts.get()
 
             var bankStatement = new BankStatementDto();
             bankStatement.setAccountNumber(account.getNumber());
@@ -134,28 +139,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         ClientDto client = clientServiceClient.geClient(clientId);
 
-        // var res = new ArrayList<BankStatementDto>();
-
-        // for (Transaction t : transactions) {
-        //     // search the account
-        //     Account account = accountRepository.findById(t.getAccountId())
-        //             .orElseThrow(() -> new NotFoundException("Transaction", t.getAccountId()));
-
-        //     var bankStatement = new BankStatementDto();
-        //     bankStatement.setAccountNumber(account.getNumber());
-        //     bankStatement.setClient(client.getName() + " / " + client.getDni());
-        //     bankStatement.setAccountType(account.getType());
-        //     bankStatement.setActive(account.isActive());
-        //     bankStatement.setAmount(t.getAmount());
-        //     bankStatement.setBalance(t.getBalance());
-        //     bankStatement.setTransactionType(t.getType());
-        //     bankStatement.setDate(t.getDate());
-        //     bankStatement.setInitialAmount(account.getInitialAmount());
-
-        //     res.add(bankStatement);
-        // }
-
-        List<BankStatementDto> res = transactions.getContent().stream().map(t-> {
+        List<BankStatementDto> res = transactions.getContent().stream().map(t -> {
             // search the account
             Account account = accountRepository.findById(t.getAccountId())
                     .orElseThrow(() -> new NotFoundException("Account", t.getAccountId()));

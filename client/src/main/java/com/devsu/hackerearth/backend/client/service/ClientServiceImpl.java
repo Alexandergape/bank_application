@@ -1,7 +1,6 @@
 package com.devsu.hackerearth.backend.client.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -53,6 +52,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public ClientDto create(ClientDto clientDto) {
+		log.info("Creating client with dni "   + clientDto.getDni());
 		Client client = ClientMapper.toEntity(clientDto);
 
 		try {
@@ -95,9 +95,13 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public void deleteById(Long id) {
-		if (!clientRepository.existsById(id))
-			throw new NotFoundException("Client", id);
+		// if (!clientRepository.existsById(id))
+		// 	throw new NotFoundException("Client", id);
+		Client client = getClientById(id);
+		
+		client.setActive(false);
+		clientRepository.save(client);
 
-		clientRepository.deleteById(id);
+		// clientRepository.deleteById(id);
 	}
 }
